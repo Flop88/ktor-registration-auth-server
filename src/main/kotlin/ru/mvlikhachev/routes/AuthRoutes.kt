@@ -10,7 +10,7 @@ import ru.mvlikhachev.data.models.User
 import ru.mvlikhachev.data.models.requests.AuthRequest
 import ru.mvlikhachev.security.hashing.HashingService
 
-fun Route.singUp(
+fun Route.signUp(
     hashingService: HashingService,
     userDataSource: UserDataSource
 ) {
@@ -35,7 +35,7 @@ fun Route.singUp(
         val saltedHash = hashingService.generateSaltedHash(request.password)
         val user = User(
             username = request.username,
-            password = request.password,
+            password = saltedHash.hash,
             salt = saltedHash.salt
         )
         val wasAcknowledged = userDataSource.insertUser(user)
